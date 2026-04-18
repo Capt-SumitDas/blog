@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cybersecurity researcher, ethical hacker, and CTF player. Sharing writeups, tutorials, and security research.">
+  <meta name="keywords" content="cybersecurity, ethical hacking, CTF, penetration testing, security blog">
+  <meta property="og:title" content="0xHacker | Cybersecurity Blog">
+  <meta property="og:description" content="Cybersecurity research, CTF writeups, and ethical hacking tutorials.">
+  <meta property="og:type" content="website">
+  <title>0xHacker | Cybersecurity Blog</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Page Loader -->
+<div class="page-loader">
+  <div style="font-family:'JetBrains Mono',monospace;color:var(--accent-green);font-size:1.5rem;font-weight:700">
+    0x<span style="color:var(--accent-cyan)">HACKER</span>
+  </div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-text">Initializing secure connection...</div>
+</div>
+
+<!-- Reading Progress -->
+<div id="reading-progress"></div>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Home">
+      <span>~/</span>0xhacker<span class="cursor"></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="blog/index.html">Blog</a></li>
+      <li><a href="ctf/index.html">CTF Writeups</a></li>
+      <li><a href="about/index.html">About</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <div class="nav-search" role="search">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input type="search" id="search-input" placeholder="Search..." aria-label="Search posts">
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode"></button>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Search Results Dropdown -->
+<div id="search-results" role="listbox" aria-label="Search results"></div>
+
+<!-- ── HERO ── -->
+<section id="hero" aria-label="Introduction">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span></span> Available for bug bounty collaboration
+      </div>
+      <h1 class="hero-name glitch" data-text="Your Name">
+        Your <span class="highlight">Name</span>
+      </h1>
+      <div class="hero-tagline">
+        <span id="typing-target"></span><span class="typing-cursor"></span>
+      </div>
+      <p class="hero-desc">
+        Security researcher exploring the boundaries of digital systems.
+        I break things ethically, write about what I find, and help others
+        learn the art of offensive security.
+      </p>
+      <div class="hero-cta">
+        <a href="blog/index.html" class="btn btn-primary">
+          <i class="fas fa-book"></i> Read Blog
+        </a>
+        <a href="ctf/index.html" class="btn btn-outline">
+          <i class="fas fa-flag"></i> CTF Writeups
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num" id="stat-posts">24</span>
+          <span class="stat-label">Blog Posts</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="stat-ctfs">47</span>
+          <span class="stat-label">CTF Solves</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="stat-bugs">12</span>
+          <span class="stat-label">Bugs Found</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal Window -->
+    <div class="hero-terminal" aria-hidden="true">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <span class="terminal-title">kali@0xhacker: ~/ctf/target</span>
+      </div>
+      <div class="terminal-body" id="terminal-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LATEST POSTS ── -->
+<section id="latest-posts" aria-label="Latest blog posts">
+  <div class="container">
+    <div class="posts-header" data-animate>
+      <h2 class="section-title">Latest Posts</h2>
+      <a href="blog/index.html" class="btn btn-outline">
+        View All <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Tag Filters -->
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;" data-animate>
+      <button class="tag active" data-filter="all">All</button>
+      <button class="tag" data-filter="web">Web</button>
+      <button class="tag" data-filter="pwn">Pwn</button>
+      <button class="tag" data-filter="crypto">Crypto</button>
+      <button class="tag" data-filter="linux">Linux</button>
+      <button class="tag" data-filter="pentest">Pentest</button>
+      <button class="tag" data-filter="bugbounty">Bug Bounty</button>
+    </div>
+
+    <div class="posts-grid" id="posts-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ── -->
+<section id="categories" aria-label="Blog categories">
+  <div class="container">
+    <h2 class="section-title" data-animate>Categories</h2>
+    <div class="categories-grid">
+      <div class="category-card" style="--cat-color:#00d4ff" data-animate data-delay="1"
+           onclick="window.location='blog/index.html?filter=web'">
+        <span class="cat-icon">🌐</span>
+        <div class="cat-name">Web Security</div>
+        <div class="cat-count">8 posts</div>
+      </div>
+      <div class="category-card" style="--cat-color:#ff4757" data-animate data-delay="2"
+           onclick="window.location='blog/index.html?filter=pwn'">
+        <span class="cat-icon">💥</span>
+        <div class="cat-name">Binary Exploitation</div>
+        <div class="cat-count">5 posts</div>
+      </div>
+      <div class="category-card" style="--cat-color:#ffd700" data-animate data-delay="3"
+           onclick="window.location='blog/index.html?filter=crypto'">
+        <span class="cat-icon">🔐</span>
+        <div class="cat-name">Cryptography</div>
+        <div class="cat-count">4 posts</div>
+      </div>
+      <div class="category-card" style="--cat-color:#7c3aed" data-animate data-delay="4"
+           onclick="window.location='blog/index.html?filter=windows'">
+        <span class="cat-icon">🪟</span>
+        <div class="cat-name">Windows / AD</div>
+        <div class="cat-count">3 posts</div>
+      </div>
+      <div class="category-card" style="--cat-color:#00ff9d" data-animate data-delay="5"
+           onclick="window.location='blog/index.html?filter=linux'">
+        <span class="cat-icon">🐧</span>
+        <div class="cat-name">Linux / PrivEsc</div>
+        <div class="cat-count">6 posts</div>
+      </div>
+      <div class="category-card" style="--cat-color:#ff9f43" data-animate data-delay="6"
+           onclick="window.location='ctf/index.html'">
+        <span class="cat-icon">🏴</span>
+        <div class="cat-name">CTF Writeups</div>
+        <div class="cat-count">47 solves</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED CTF ── -->
+<section id="featured-ctf" aria-label="Featured CTF writeups">
+  <div class="container">
+    <div class="posts-header" data-animate>
+      <h2 class="section-title">CTF Writeups</h2>
+      <a href="ctf/index.html" class="btn btn-outline">
+        View All <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+    <div class="ctf-grid" id="ctf-grid-home">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ── -->
+<section id="newsletter" aria-label="Newsletter signup">
+  <div class="container">
+    <div class="newsletter-section" data-animate>
+      <h2 class="newsletter-title">Stay in the Loop</h2>
+      <p class="newsletter-desc">
+        Get notified when I publish new writeups, tutorials, and security research.
+        No spam, unsubscribe anytime.
+      </p>
+      <form class="newsletter-form" id="newsletter-form" novalidate>
+        <input
+          type="email"
+          class="newsletter-input"
+          placeholder="your@email.com"
+          required
+          aria-label="Email address"
+        >
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Subscribe
+        </button>
+      </form>
+      <p style="margin-top:1rem;font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">
+        // 0 spam, 0 tracking, 100% security content
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">~/0xhacker</div>
+        <p class="footer-desc">
+          Security researcher sharing knowledge about offensive security,
+          CTF challenges, and bug bounty hunting.
+        </p>
+        <div class="footer-social">
+          <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/yourprofile" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener" aria-label="Twitter/X">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+          <a href="https://tryhackme.com/p/yourprofile" class="social-link" target="_blank" rel="noopener" aria-label="TryHackMe">
+            <i class="fas fa-skull-crossbones"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-home fa-fw"></i> Home</a></li>
+          <li><a href="blog/index.html"><i class="fas fa-book fa-fw"></i> Blog</a></li>
+          <li><a href="ctf/index.html"><i class="fas fa-flag fa-fw"></i> CTF Writeups</a></li>
+          <li><a href="about/index.html"><i class="fas fa-user fa-fw"></i> About</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Categories</div>
+        <ul class="footer-links">
+          <li><a href="blog/index.html?filter=web">🌐 Web Security</a></li>
+          <li><a href="blog/index.html?filter=pwn">💥 Binary Exploitation</a></li>
+          <li><a href="blog/index.html?filter=crypto">🔐 Cryptography</a></li>
+          <li><a href="blog/index.html?filter=linux">🐧 Linux / PrivEsc</a></li>
+          <li><a href="blog/index.html?filter=windows">🪟 Windows / AD</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Platforms</div>
+        <ul class="footer-links">
+          <li><a href="https://app.hackthebox.com" target="_blank" rel="noopener">HackTheBox</a></li>
+          <li><a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a></li>
+          <li><a href="https://ctftime.org" target="_blank" rel="noopener">CTFtime</a></li>
+          <li><a href="https://picoctf.org" target="_blank" rel="noopener">picoCTF</a></li>
+          <li><a href="https://bugcrowd.com" target="_blank" rel="noopener">Bugcrowd</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">
+        © <span id="year"></span> 0xHacker · Built with ❤️ and too much coffee
+      </span>
+      <div class="footer-badges">
+        <span class="footer-badge">HTTPS</span>
+        <span class="footer-badge">Open Source</span>
+        <span class="footer-badge">No Trackers</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top -->
+<button id="back-to-top" aria-label="Back to top" title="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // Set year
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // Render cards after data loads
+  document.addEventListener('DOMContentLoaded', () => {
+    renderLatestPosts('posts-grid', 6);
+    renderCTFCards('ctf-grid-home', 4);
+  });
+</script>
+</body>
+</html>

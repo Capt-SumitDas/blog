@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CTF writeups and challenge solutions - web, crypto, pwn, forensics, and more.">
+  <title>CTF Writeups | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="index.html" class="active">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input type="search" id="search-input" placeholder="Search...">
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="search-results"></div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div style="font-family:var(--font-mono);color:var(--accent-purple);font-size:0.85rem;margin-bottom:0.5rem">
+      ls -la ~/ctf/writeups/
+    </div>
+    <h1 class="page-hero-title" style="color:var(--accent-purple)">CTF Writeups</h1>
+    <p class="page-hero-sub">// Step-by-step solutions to capture the flag challenges</p>
+    <div style="display:flex;gap:2rem;justify-content:center;margin-top:2rem;flex-wrap:wrap">
+      <div class="stat"><span class="stat-num" style="color:var(--accent-purple)">47</span><span class="stat-label">Total Solves</span></div>
+      <div class="stat"><span class="stat-num" style="color:var(--accent-cyan)">12</span><span class="stat-label">CTF Events</span></div>
+      <div class="stat"><span class="stat-num" style="color:var(--accent-yellow)">3</span><span class="stat-label">Wins / Placements</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTF Stats Bar -->
+<div style="background:var(--bg-card);border-bottom:1px solid var(--border);padding:1.5rem 0">
+  <div class="container">
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+      <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted)">Filter by:</span>
+      <button class="tag active" data-filter="all" style="border-color:var(--accent-purple);color:var(--accent-purple)">All</button>
+      <button class="tag" data-filter="web">🌐 Web</button>
+      <button class="tag" data-filter="crypto">🔐 Crypto</button>
+      <button class="tag" data-filter="pwn">💥 Pwn</button>
+      <button class="tag" data-filter="rev">⚙️ Reverse</button>
+      <button class="tag" data-filter="forensics">🔍 Forensics</button>
+      <button class="tag" data-filter="misc">🎲 Misc</button>
+    </div>
+  </div>
+</div>
+
+<!-- CTF Grid -->
+<section>
+  <div class="container">
+
+    <!-- Group by event -->
+    <div id="ctf-events-container">
+
+      <!-- HackTheBox -->
+      <div style="margin-bottom:3rem">
+        <h2 class="section-title" data-animate>HackTheBox Machines</h2>
+        <div class="ctf-grid" id="ctf-htb-grid" data-animate>
+
+          <article class="ctf-card" data-tags="web,htb,cve,apache"
+                   onclick="window.location='htb-bizness.html'" role="button" tabindex="0">
+            <div class="ctf-header">
+              <span class="ctf-category cat-web">🌐 Web</span>
+              <div class="ctf-difficulty" title="Easy">
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+              </div>
+            </div>
+            <h3 class="ctf-title">Bizness</h3>
+            <p class="ctf-event">🏆 HackTheBox · Easy</p>
+            <p class="ctf-desc">Pre-auth RCE via CVE-2023-51467 in Apache OFBiz. Hash extraction from Derby database for root escalation.</p>
+            <div class="ctf-footer">
+              <span class="ctf-points">⚡ 20 pts</span>
+              <span class="read-more">Read writeup</span>
+            </div>
+          </article>
+
+          <article class="ctf-card" data-tags="linux,htb,privesc"
+                   onclick="window.location='htb-intentions.html'" role="button" tabindex="0">
+            <div class="ctf-header">
+              <span class="ctf-category cat-pwn">💥 Pwn/Linux</span>
+              <div class="ctf-difficulty" title="Hard">
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot hard"></span>
+                <span class="diff-dot"></span>
+              </div>
+            </div>
+            <h3 class="ctf-title">Intentions</h3>
+            <p class="ctf-event">🏆 HackTheBox · Hard</p>
+            <p class="ctf-desc">Mass assignment vulnerability for admin access, SQL injection in image search, and git credentials in commit history.</p>
+            <div class="ctf-footer">
+              <span class="ctf-points">⚡ 40 pts</span>
+              <span class="read-more">Read writeup</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- picoCTF -->
+      <div style="margin-bottom:3rem">
+        <h2 class="section-title" data-animate>picoCTF Challenges</h2>
+        <div class="ctf-grid" data-animate>
+
+          <article class="ctf-card" data-tags="pwn,picoctf"
+                   onclick="window.location='picoctf-babygame.html'" role="button" tabindex="0">
+            <div class="ctf-header">
+              <span class="ctf-category cat-pwn">💥 Pwn</span>
+              <div class="ctf-difficulty" title="Medium">
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+              </div>
+            </div>
+            <h3 class="ctf-title">BabyGame01</h3>
+            <p class="ctf-event">🏆 picoCTF 2024</p>
+            <p class="ctf-desc">Overwriting adjacent stack variables through unchecked user input in a grid-movement game to get the win condition.</p>
+            <div class="ctf-footer">
+              <span class="ctf-points">⚡ 200 pts</span>
+              <span class="read-more">Read writeup</span>
+            </div>
+          </article>
+
+          <article class="ctf-card" data-tags="crypto,rsa,picoctf"
+                   onclick="window.location='picoctf-rsa.html'" role="button" tabindex="0">
+            <div class="ctf-header">
+              <span class="ctf-category cat-crypto">🔐 Crypto</span>
+              <div class="ctf-difficulty" title="Easy">
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+              </div>
+            </div>
+            <h3 class="ctf-title">Mini RSA</h3>
+            <p class="ctf-event">🏆 picoCTF 2024</p>
+            <p class="ctf-desc">Small public exponent attack where e=3 and the message is small enough that m³ &lt; n, making decryption trivial.</p>
+            <div class="ctf-footer">
+              <span class="ctf-points">⚡ 300 pts</span>
+              <span class="read-more">Read writeup</span>
+            </div>
+          </article>
+
+          <article class="ctf-card" data-tags="forensics,steganography,picoctf"
+                   onclick="window.location='picoctf-stego.html'" role="button" tabindex="0">
+            <div class="ctf-header">
+              <span class="ctf-category cat-forensics">🔍 Forensics</span>
+              <div class="ctf-difficulty" title="Medium">
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot filled"></span>
+                <span class="diff-dot"></span>
+                <span class="diff-dot"></span>
+              </div>
+            </div>
+            <h3 class="ctf-title">Hideme</h3>
+            <p class="ctf-event">🏆 picoCTF 2024</p>
+            <p class="ctf-desc">Extract a hidden ZIP archive appended to a PNG file using binwalk, then find the flag in the extracted directory.</p>
+            <div class="ctf-footer">
+              <span class="ctf-points">⚡ 250 pts</span>
+              <span class="read-more">Read writeup</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Add more writeup CTA -->
+    <div style="text-align:center;padding:3rem 0" data-animate>
+      <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">
+        // More writeups added regularly. Follow for updates.
+      </div>
+      <a href="../index.html#newsletter" class="btn btn-primary">
+        <i class="fas fa-bell"></i> Get Notified
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+      <div class="footer-social">
+        <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Apply filter from URL
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter');
+    if (filter) {
+      const btn = document.querySelector(`[data-filter="${filter}"]`);
+      if (btn) btn.click();
+    }
+  });
+</script>
+</body>
+</html>

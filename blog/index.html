@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="All blog posts - cybersecurity tutorials, walkthroughs, and research.">
+  <title>Blog | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Blog</a></li>
+      <li><a href="../ctf/index.html">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="nav-search">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input type="search" id="search-input" placeholder="Search..." aria-label="Search">
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="search-results"></div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div style="font-family:var(--font-mono);color:var(--accent-green);font-size:0.85rem;margin-bottom:0.5rem">
+      cat /blog/all-posts.txt
+    </div>
+    <h1 class="page-hero-title glitch" data-text="Blog">Blog</h1>
+    <p class="page-hero-sub">// Security research, tutorials, and walkthroughs</p>
+  </div>
+</div>
+
+<!-- Blog Content -->
+<section>
+  <div class="container">
+    <!-- Filters -->
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2.5rem;" data-animate>
+      <button class="tag active" data-filter="all">All Posts</button>
+      <button class="tag" data-filter="web">Web</button>
+      <button class="tag" data-filter="pwn">Pwn / Binary</button>
+      <button class="tag" data-filter="crypto">Crypto</button>
+      <button class="tag" data-filter="linux">Linux</button>
+      <button class="tag" data-filter="windows">Windows / AD</button>
+      <button class="tag" data-filter="pentest">Pentest</button>
+      <button class="tag" data-filter="bugbounty">Bug Bounty</button>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="posts-grid" id="blog-posts-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Empty state -->
+    <div id="no-posts" style="display:none;text-align:center;padding:4rem 0;font-family:var(--font-mono);color:var(--text-muted)">
+      // No posts found for this filter
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section>
+  <div class="container">
+    <div class="newsletter-section" data-animate>
+      <h2 class="newsletter-title">Get New Posts</h2>
+      <p class="newsletter-desc">Subscribe to get notified when new security content is published.</p>
+      <form class="newsletter-form" id="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+      <div class="footer-social">
+        <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function renderAll() {
+    const container = document.getElementById('blog-posts-grid');
+    const posts = window.BLOG_DATA.filter(p => p.type === 'blog');
+    container.innerHTML = posts.map((post, i) => `
+      <article class="post-card" data-tags="${post.tags.join(',')}" data-animate data-delay="${(i % 3) + 1}"
+               onclick="window.location='${post.id}.html'" role="button" tabindex="0">
+        <div class="post-meta">
+          <span class="post-date">📅 ${new Date(post.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+          <span class="post-read-time">⏱ ${post.readTime}</span>
+        </div>
+        <h3 class="post-title">${post.title}</h3>
+        <p class="post-excerpt">${post.excerpt}</p>
+        <div class="post-footer">
+          <div class="post-tags">${post.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          <span class="read-more">Read more</span>
+        </div>
+      </article>
+    `).join('');
+
+    // Check URL param for filter
+    const params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter');
+    if (filter) {
+      const btn = document.querySelector(`[data-filter="${filter}"]`);
+      if (btn) btn.click();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', renderAll);
+</script>
+</body>
+</html>

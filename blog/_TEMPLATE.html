@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CUSTOMIZE: Update these meta tags for each post -->
+  <meta name="description" content="POST DESCRIPTION HERE">
+  <meta property="og:title" content="POST TITLE | 0xHacker">
+  <meta property="og:type" content="article">
+  <title>POST TITLE | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Blog</a></li>
+      <li><a href="../ctf/index.html">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div style="padding:5rem 0 0;background:var(--bg-secondary);border-bottom:1px solid var(--border)">
+  <div class="container" style="max-width:900px;padding-bottom:1rem">
+    <nav style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted)">
+      <a href="../index.html" style="color:var(--text-muted)">~</a>
+      <span style="margin:0 0.4rem">/</span>
+      <a href="index.html" style="color:var(--text-muted)">blog</a>
+      <span style="margin:0 0.4rem">/</span>
+      <!-- CUSTOMIZE: Update slug -->
+      <span style="color:var(--accent-green)">your-post-slug</span>
+    </nav>
+  </div>
+</div>
+
+<!-- Post Header -->
+<div style="background:var(--bg-secondary);padding-bottom:3rem">
+  <div class="container" style="max-width:900px">
+    <div class="post-header" style="border:none;padding:2rem 0 0;margin:0">
+      <div class="post-meta" style="margin-bottom:1rem">
+        <!-- CUSTOMIZE: Update date, read time, author -->
+        <span class="post-date">📅 January 1, 2025</span>
+        <span class="post-read-time">⏱ X min read</span>
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">
+          <i class="fas fa-user"></i> Your Name
+        </span>
+      </div>
+      <!-- CUSTOMIZE: Update title -->
+      <h1 class="post-hero-title">Your Post Title Here</h1>
+      <!-- CUSTOMIZE: Update tags -->
+      <div class="post-tags" style="margin-top:1rem">
+        <span class="tag">tag1</span>
+        <span class="tag">tag2</span>
+        <span class="tag">tag3</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Post Body -->
+<section style="padding:3rem 0">
+  <div class="container" style="max-width:1100px">
+    <div class="post-layout">
+
+      <!-- ARTICLE CONTENT -->
+      <article class="post-body">
+
+        <!-- OPTIONAL: Add a disclaimer/note callout -->
+        <!-- <div class="callout">Note text here</div> -->
+
+        <!-- CUSTOMIZE: Add your sections with IDs matching the TOC -->
+        <h2 id="introduction">Introduction</h2>
+        <p>Your introduction paragraph...</p>
+
+        <h2 id="section-two">Section Two</h2>
+        <p>Content here...</p>
+
+        <!-- Code Block Example -->
+        <pre data-lang="bash"><code># Your code here
+echo "Hello, World!"</code></pre>
+
+        <!-- Info callout -->
+        <!-- <div class="callout warning"><strong>⚠️ Note:</strong> Warning text</div> -->
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>Your conclusion...</p>
+
+        <!-- Post Footer (don't remove) -->
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+            <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted)">Tags:</span>
+            <!-- CUSTOMIZE: Match your post tags -->
+            <span class="tag">tag1</span>
+            <span class="tag">tag2</span>
+          </div>
+          <div style="display:flex;gap:1rem;margin-top:1.5rem">
+            <a href="index.html" class="btn btn-outline">
+              <i class="fas fa-arrow-left"></i> All Posts
+            </a>
+          </div>
+        </div>
+
+      </article>
+
+      <!-- TABLE OF CONTENTS SIDEBAR -->
+      <!-- CUSTOMIZE: Update links to match your section IDs above -->
+      <aside class="post-toc">
+        <div class="toc-title">// Contents</div>
+        <ul class="toc-list">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#section-two">Section Two</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

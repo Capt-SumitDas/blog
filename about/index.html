@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About - Cybersecurity researcher, ethical hacker, and CTF player.">
+  <title>About | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../ctf/index.html">CTF Writeups</a></li>
+      <li><a href="index.html" class="active">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div style="font-family:var(--font-mono);color:var(--accent-cyan);font-size:0.85rem;margin-bottom:0.5rem">
+      cat /etc/passwd | grep hacker
+    </div>
+    <h1 class="page-hero-title">About Me</h1>
+    <p class="page-hero-sub">// Security researcher, hacker, and knowledge sharer</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="about-layout">
+
+      <!-- Profile Sidebar -->
+      <aside>
+        <div class="profile-card" data-animate>
+          <!-- Replace with your actual photo -->
+          <div class="profile-img-wrapper">
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%230f1319'/%3E%3Ccircle cx='100' cy='80' r='50' fill='%231a2030'/%3E%3Ccircle cx='100' cy='210' r='80' fill='%231a2030'/%3E%3Ctext x='100' y='95' text-anchor='middle' font-size='60' fill='%2300ff9d'%3E👤%3C/text%3E%3C/svg%3E"
+              alt="Profile photo"
+              class="profile-img"
+            >
+          </div>
+          <!-- CUSTOMIZE: Replace the src above with your actual photo URL -->
+          <!-- Example: src="../images/profile.jpg" -->
+
+          <div class="profile-name">Your Name</div>
+          <div class="profile-handle">@0xhacker</div>
+          <div class="profile-location">
+            <i class="fas fa-map-marker-alt"></i> Your City, Country
+          </div>
+
+          <!-- Status badges -->
+          <div style="display:flex;flex-direction:column;gap:0.5rem;text-align:left">
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.75rem;background:var(--bg-secondary);border-radius:6px;border:1px solid var(--border)">
+              <span style="width:8px;height:8px;background:var(--accent-green);border-radius:50%;flex-shrink:0;animation:pulse 2s infinite"></span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-secondary)">Open to opportunities</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.75rem;background:var(--bg-secondary);border-radius:6px;border:1px solid var(--border)">
+              <span>🏆</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-secondary)">Top 5% on HackTheBox</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.75rem;background:var(--bg-secondary);border-radius:6px;border:1px solid var(--border)">
+              <span>🐛</span>
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-secondary)">12 CVEs / Bug Bounties</span>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener" aria-label="Twitter">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a href="mailto:you@email.com" class="social-link" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+
+          <div style="margin-top:1.5rem">
+            <a href="../files/resume.pdf" class="btn btn-primary" style="width:100%;justify-content:center" download>
+              <i class="fas fa-download"></i> Download Resume
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div>
+
+        <!-- Bio -->
+        <div data-animate>
+          <h2 class="section-title">Who I Am</h2>
+          <p class="about-bio">
+            Hey! I'm a passionate cybersecurity researcher with a focus on offensive security,
+            web application penetration testing, and CTF competitions. I started my journey into
+            security after getting curious about how websites could be broken — and I never stopped.
+          </p>
+          <p class="about-bio">
+            I actively participate in CTF competitions through platforms like HackTheBox, TryHackMe,
+            and picoCTF. I also do bug bounty hunting on Bugcrowd and HackerOne, where I've
+            responsibly disclosed vulnerabilities in several web applications.
+          </p>
+          <p class="about-bio">
+            This blog is my way of giving back to the security community. Every writeup, tutorial,
+            and research note here is designed to help the next person on the same path.
+          </p>
+        </div>
+
+        <!-- Skills -->
+        <div data-animate>
+          <div class="skills-section">
+            <h3>🌐 Web Security Tools</h3>
+            <div class="skills-grid">
+              <div class="skill-chip"><span class="skill-icon">🔥</span>Burp Suite</div>
+              <div class="skill-chip"><span class="skill-icon">🕷️</span>OWASP ZAP</div>
+              <div class="skill-chip"><span class="skill-icon">🔍</span>SQLMap</div>
+              <div class="skill-chip"><span class="skill-icon">🎯</span>Nikto</div>
+              <div class="skill-chip"><span class="skill-icon">🌀</span>ffuf</div>
+              <div class="skill-chip"><span class="skill-icon">🏹</span>Gobuster</div>
+              <div class="skill-chip"><span class="skill-icon">🔎</span>Subfinder</div>
+              <div class="skill-chip"><span class="skill-icon">🌊</span>Amass</div>
+            </div>
+
+            <h3>🖥️ Network & Infrastructure</h3>
+            <div class="skills-grid">
+              <div class="skill-chip"><span class="skill-icon">📡</span>Nmap</div>
+              <div class="skill-chip"><span class="skill-icon">🦈</span>Wireshark</div>
+              <div class="skill-chip"><span class="skill-icon">🦝</span>Metasploit</div>
+              <div class="skill-chip"><span class="skill-icon">🔐</span>Netcat</div>
+              <div class="skill-chip"><span class="skill-icon">🛡️</span>Nessus</div>
+              <div class="skill-chip"><span class="skill-icon">⚡</span>Masscan</div>
+              <div class="skill-chip"><span class="skill-icon">🔗</span>Responder</div>
+              <div class="skill-chip"><span class="skill-icon">🩸</span>BloodHound</div>
+            </div>
+
+            <h3>🔓 Passwords & Post-Exploitation</h3>
+            <div class="skills-grid">
+              <div class="skill-chip"><span class="skill-icon">⚒️</span>Hashcat</div>
+              <div class="skill-chip"><span class="skill-icon">🗡️</span>John the Ripper</div>
+              <div class="skill-chip"><span class="skill-icon">🐉</span>Mimikatz</div>
+              <div class="skill-chip"><span class="skill-icon">🕵️</span>Impacket</div>
+              <div class="skill-chip"><span class="skill-icon">🌙</span>Evil-WinRM</div>
+              <div class="skill-chip"><span class="skill-icon">🐍</span>Python / pwntools</div>
+            </div>
+
+            <h3>💻 Programming Languages</h3>
+            <div class="skills-grid">
+              <div class="skill-chip"><span class="skill-icon">🐍</span>Python</div>
+              <div class="skill-chip"><span class="skill-icon">🐚</span>Bash</div>
+              <div class="skill-chip"><span class="skill-icon">🕸️</span>JavaScript</div>
+              <div class="skill-chip"><span class="skill-icon">⚙️</span>C / C++</div>
+              <div class="skill-chip"><span class="skill-icon">🦀</span>Rust</div>
+              <div class="skill-chip"><span class="skill-icon">🔧</span>Assembly (x86)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience Timeline -->
+        <div data-animate>
+          <h2 class="section-title">Journey</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">2024 – Present</div>
+              <div class="timeline-title">Security Researcher & Bug Bounty Hunter</div>
+              <div class="timeline-org">Independent / Bug Bounty Platforms</div>
+              <div class="timeline-desc">
+                Actively finding and responsibly disclosing vulnerabilities in web applications.
+                Competing in CTF competitions globally. Writing educational security content.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2023</div>
+              <div class="timeline-title">OSCP Certification</div>
+              <div class="timeline-org">Offensive Security</div>
+              <div class="timeline-desc">
+                Passed the Offensive Security Certified Professional exam, completing a 24-hour
+                practical penetration testing challenge.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2022 – 2023</div>
+              <div class="timeline-title">Junior Penetration Tester</div>
+              <div class="timeline-org">Your Company / Internship</div>
+              <div class="timeline-desc">
+                Performed web application and network penetration tests for clients.
+                Wrote detailed reports with remediation recommendations.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2021</div>
+              <div class="timeline-title">Started CTF Competing</div>
+              <div class="timeline-org">HackTheBox / TryHackMe</div>
+              <div class="timeline-desc">
+                Began learning offensive security through CTF platforms.
+                Achieved Pro Hacker rank on HackTheBox within 6 months.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2019 – 2022</div>
+              <div class="timeline-title">B.Sc. Computer Science</div>
+              <div class="timeline-org">Your University</div>
+              <div class="timeline-desc">
+                Studied computer science with self-taught focus on cybersecurity,
+                cryptography, and systems programming.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div data-animate>
+          <h2 class="section-title">Certifications</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem">
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:var(--transition)" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:2rem">🏆</span>
+              <div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.95rem">OSCP</div>
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted)">OffSec · 2023</div>
+              </div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:var(--transition)" onmouseover="this.style.borderColor='var(--accent-cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:2rem">🛡️</span>
+              <div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.95rem">CEH</div>
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted)">EC-Council · 2022</div>
+              </div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:var(--transition)" onmouseover="this.style.borderColor='var(--accent-yellow)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:2rem">🔐</span>
+              <div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.95rem">CompTIA Security+</div>
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted)">CompTIA · 2022</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div data-animate style="margin-top:3rem">
+          <h2 class="section-title">Get In Touch</h2>
+          <p style="color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.8">
+            Interested in collaborating, have a security question, or want to report a bug?
+            Feel free to reach out — I try to respond to everyone.
+          </p>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <a href="mailto:you@email.com" class="btn btn-primary">
+              <i class="fas fa-envelope"></i> Email Me
+            </a>
+            <a href="https://twitter.com/yourhandle" class="btn btn-outline" target="_blank" rel="noopener">
+              <i class="fab fa-x-twitter"></i> DM on X
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+      <div class="footer-social">
+        <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/yourhandle" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CUSTOMIZE -->
+  <meta name="description" content="CTF Writeup: CHALLENGE NAME - BRIEF DESCRIPTION">
+  <title>CTF: CHALLENGE NAME | 0xHacker</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="index.html" class="active">CTF Writeups</a></li>
+      <li><a href="../about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Breadcrumb + Meta -->
+<div style="padding:5rem 0 0;background:var(--bg-secondary);border-bottom:1px solid var(--border)">
+  <div class="container" style="max-width:900px;padding-bottom:2rem">
+    <nav style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem">
+      <a href="../index.html" style="color:var(--text-muted)">~</a>
+      <span style="margin:0 0.4rem">/</span>
+      <a href="index.html" style="color:var(--text-muted)">ctf</a>
+      <span style="margin:0 0.4rem">/</span>
+      <!-- CUSTOMIZE: slug -->
+      <span style="color:var(--accent-purple)">challenge-slug</span>
+    </nav>
+
+    <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start">
+      <div>
+        <div style="display:flex;gap:0.75rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+          <!-- CUSTOMIZE: Category class: cat-web, cat-crypto, cat-pwn, cat-rev, cat-forensics, cat-misc -->
+          <span class="ctf-category cat-web">🌐 Web</span>
+          <!-- CUSTOMIZE: Date and points -->
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">📅 January 1, 2025</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-yellow)">⚡ 100 pts</span>
+        </div>
+        <!-- CUSTOMIZE: Challenge name -->
+        <h1 style="font-family:var(--font-display);font-size:2.5rem;font-weight:700;letter-spacing:0.03em;margin-bottom:0.5rem">
+          Challenge Name
+        </h1>
+        <!-- CUSTOMIZE: Event and difficulty -->
+        <p style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary)">
+          CTF Event Name · Easy/Medium/Hard
+        </p>
+      </div>
+      <div style="text-align:right">
+        <!-- CUSTOMIZE: Difficulty dots (1=easy, 2=medium, 3=hard, 4=insane) -->
+        <div class="ctf-difficulty" style="justify-content:flex-end;margin-bottom:0.5rem">
+          <span class="diff-dot filled"></span>
+          <span class="diff-dot filled"></span>
+          <span class="diff-dot"></span>
+          <span class="diff-dot"></span>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">Medium</span>
+      </div>
+    </div>
+
+    <!-- CUSTOMIZE: Tags -->
+    <div style="display:flex;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap">
+      <span class="tag">skill-1</span>
+      <span class="tag">skill-2</span>
+      <span class="tag">skill-3</span>
+    </div>
+  </div>
+</div>
+
+<!-- Writeup Body -->
+<section style="padding:3rem 0">
+  <div class="container" style="max-width:1100px">
+    <div class="post-layout">
+
+      <article class="post-body">
+
+        <!-- OPTIONAL TL;DR -->
+        <div class="callout" style="margin-bottom:2rem">
+          <strong>📋 TL;DR:</strong> Brief summary of the approach.
+        </div>
+
+        <h2 id="challenge-description">Challenge Description</h2>
+        <p>Paste the challenge description here.</p>
+
+        <h2 id="analysis">Analysis</h2>
+        <p>What you observed...</p>
+
+        <h2 id="solution">Solution</h2>
+        <p>Step by step...</p>
+
+        <pre data-lang="python"><code># Your exploit code here
+print("flag{...}")</code></pre>
+
+        <h2 id="flag">Flag</h2>
+        <pre data-lang="bash"><code>flag{your_flag_here}</code></pre>
+
+        <h2 id="takeaways">Key Takeaways</h2>
+        <ul>
+          <li>Lesson 1</li>
+          <li>Lesson 2</li>
+        </ul>
+
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
+          <div style="display:flex;gap:1rem">
+            <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> All Writeups</a>
+          </div>
+        </div>
+
+      </article>
+
+      <!-- CUSTOMIZE: Update TOC to match your sections -->
+      <aside class="post-toc">
+        <div class="toc-title">// Steps</div>
+        <ul class="toc-list">
+          <li><a href="#challenge-description">Challenge Description</a></li>
+          <li><a href="#analysis">Analysis</a></li>
+          <li><a href="#solution">Solution</a></li>
+          <li><a href="#flag">Flag</a></li>
+          <li><a href="#takeaways">Takeaways</a></li>
+        </ul>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <div class="toc-title">// Tools Used</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem">
+            <!-- CUSTOMIZE: List tools used -->
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">• Tool Name</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span class="footer-copy">© <span id="year"></span> 0xHacker</span>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<script src="../js/data.js"></script>
+<script src="../js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

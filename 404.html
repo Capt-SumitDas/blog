@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Not Found | 0xHacker</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-logo"><span>~/</span>0xhacker<span class="cursor"></span></a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/blog/index.html">Blog</a></li>
+      <li><a href="/ctf/index.html">CTF</a></li>
+      <li><a href="/about/index.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+    </div>
+  </div>
+</nav>
+
+<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center">
+  <div>
+    <div style="font-family:var(--font-mono);font-size:8rem;font-weight:700;color:var(--accent-red);line-height:1;text-shadow:0 0 40px rgba(255,71,87,0.5)">
+      404
+    </div>
+    <div style="font-family:var(--font-mono);color:var(--text-muted);font-size:1rem;margin:1rem 0 2rem">
+      // Page not found. The target has evaded detection.
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;max-width:400px;margin:0 auto 2rem;font-family:var(--font-mono);font-size:0.8rem;text-align:left;line-height:2">
+      <div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">locate this-page</span></div>
+      <div class="term-error">ERROR: File not found in any database</div>
+      <div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">grep -r "this-page" /var/www</span></div>
+      <div class="term-error">grep: no matches found</div>
+      <div class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">cd ~</span></div>
+    </div>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="/index.html" class="btn btn-primary"><i class="fas fa-home"></i> Go Home</a>
+      <a href="/blog/index.html" class="btn btn-outline"><i class="fas fa-book"></i> Browse Blog</a>
+    </div>
+  </div>
+</section>
+
+<script src="/js/data.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
